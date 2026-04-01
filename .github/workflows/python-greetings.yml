@@ -24,13 +24,14 @@ jobs:
       - run: ./venv/Scripts/python -m pip install -r requirements.txt
         working-directory: python-greetings 
           
-      
-      
   deploy-to-dev:
     runs-on: self-hosted
     needs: install-pip-deps
     steps:
-      - run: echo "Deploying to development..."
+      - uses: ./.github/actions/deploy
+        with:
+          environment: 'dev'
+          port: 7001
     
   tests-on-dev:
     runs-on: self-hosted
@@ -42,7 +43,10 @@ jobs:
     runs-on: self-hosted
     needs: tests-on-dev
     steps:
-      - run: echo "Deploying to staging..."
+      - uses: ./.github/actions/deploy
+        with:
+          environment: 'stg'
+          port: 7002
     
   tests-on-stg:
     runs-on: self-hosted
@@ -54,7 +58,10 @@ jobs:
     runs-on: self-hosted
     needs: tests-on-stg
     steps:
-      - run: echo "Deploying to preprod..."
+      - uses: ./.github/actions/deploy
+        with:
+          environment: 'preprod'
+          port: 7003
     
   tests-on-preprod:
     runs-on: self-hosted
@@ -66,7 +73,10 @@ jobs:
     runs-on: self-hosted
     needs: tests-on-preprod
     steps:
-      - run: echo "Deploying to production..."
+      - uses: ./.github/actions/deploy
+        with:
+          environment: 'prod'
+          port: 7004
     
   tests-on-prod:
     runs-on: self-hosted
