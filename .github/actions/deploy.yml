@@ -1,0 +1,28 @@
+name: Deployment
+
+inputs:
+  environment:
+    required: true
+  port:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - run: echo "Deploying to ${{ inputs.environment }}..."
+  
+    - uses: actions/checkout@v6 
+  
+    - uses: actions/checkout@v6
+      with:
+        repository: 'mtararujs/python-greetings'
+        path: 'python-greetings-deploy'
+
+    - run: pm2 delete greetings-app-${{ inputs.environment }} & EXIT /B 0
+      shell: powershell
+      working-directory: python-greetings-deploy
+
+    - run: pm2 start app.py --name greetings-app-${{ inputs.environment }} --interpreter ./venv/Scripts/python.exe -- --port ${{ inputs.port }}
+      shell: powershell
+      working-directory: python-greetings-deploy
+    
