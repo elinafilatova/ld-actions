@@ -1,2 +1,60 @@
-name : lab-darbs-runner
+name: lab-darbs-runner
 
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch: 
+
+jobs:
+  install-pip-deps:
+    runs-on: self-hosted
+    steps:
+      - run: echo "Installing all required dependencies..."
+      
+  deploy-to-dev:
+    runs-on: self-hosted
+    needs: install-pip-deps
+    steps:
+      - run: echo "Deploying to development..."
+    
+  tests-on-dev:
+    runs-on: self-hosted
+    needs: deploy-to-dev
+    steps:
+      - run: echo "Testing on development..."
+    
+  deploy-to-stg:
+    runs-on: self-hosted
+    needs: tests-on-dev
+    steps:
+      - run: echo "Deploying to staging..."
+    
+  tests-on-stg:
+    runs-on: self-hosted
+    needs: deploy-to-stg
+    steps:
+      - run: echo "Testing on staging..."
+    
+  deploy-to-preprod:
+    runs-on: self-hosted
+    needs: tests-on-stg
+    steps:
+      - run: echo "Deploying to preprod..."
+    
+  tests-on-preprod:
+    runs-on: self-hosted
+    needs: deploy-to-preprod
+    steps:
+      - run: echo "Testing on preprod..."
+    
+  deploy-to-prod:
+    runs-on: self-hosted
+    needs: tests-on-preprod
+    steps:
+      - run: echo "Deploying to production..."
+    
+  tests-on-prod:
+    runs-on: self-hosted
+    needs: deploy-to-prod
+    steps:
+      - run: echo "Testing on production..."
