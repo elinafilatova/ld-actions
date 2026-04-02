@@ -10,3 +10,18 @@ runs:
   steps:
     - run: echo "Running tests on ${{ inputs.environment }}..."
       shell: powershell
+
+    - uses: actions/checkout@v6
+
+    - uses: actions/checkout@v6
+      with:
+        repository: 'mtararujs/course-js-api-framework'
+        path: 'course-js-api-framework'
+
+    - run: npm install
+      shell: powershell
+      working-directory: course-js-api-framework
+
+    - run: npm run greetings greetings_${{ inputs.environment }}
+      shell: powershell
+      working-directory: course-js-api-framework
