@@ -1,0 +1,12 @@
+name: Test
+description: Running tests
+
+inputs:
+  environment:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - run: echo "Running tests on ${{ inputs.environment }}..."
+      shell: powershell
