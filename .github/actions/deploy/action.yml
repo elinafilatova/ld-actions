@@ -18,13 +18,13 @@ runs:
     - uses: actions/checkout@v6
       with:
         repository: 'mtararujs/python-greetings'
-        path: 'python-greetings-deploy'
+        path: 'python-greetings'
 
     - run: pm2 delete greetings-app-${{ inputs.environment }}  ; if (!$?) {Write-Host "does not exist"} ; exit 0
       shell: powershell
-      working-directory: python-greetings-deploy
+      working-directory: python-greetings
 
     - run: pm2 start app.py --name greetings-app-${{ inputs.environment }} --interpreter ./venv/Scripts/python.exe -- ${{ inputs.port }}
       shell: powershell
-      working-directory: python-greetings-deploy
+      working-directory: python-greetings
     
