@@ -32,7 +32,7 @@ runs:
       shell: powershell
       working-directory: python-greetings
 
-    - run: pm2 start app.py --name greetings-app-${{ inputs.environment }} --interpreter ./venv/Scripts/python.exe -- "${{ inputs.port }}"
+    - run: $env:PORT=${{ inputs.port }} pm2 start app.py --name greetings-app-${{ inputs.environment }} --interpreter ./venv/Scripts/python.exe
       shell: powershell
       working-directory: python-greetings
     
