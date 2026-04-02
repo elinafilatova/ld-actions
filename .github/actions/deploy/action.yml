@@ -20,7 +20,7 @@ runs:
         repository: 'mtararujs/python-greetings'
         path: 'python-greetings-deploy'
 
-    - run: pm2 delete greetings-app-${{ inputs.environment }}  ; if (!$?) {Write-Host "does not exist"}
+    - run: pm2 delete greetings-app-${{ inputs.environment }}  ; if (!$?) {Write-Host "does not exist"} ; exit 0
       shell: powershell
       working-directory: python-greetings-deploy
 
