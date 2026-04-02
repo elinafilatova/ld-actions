@@ -20,6 +20,14 @@ runs:
         repository: 'mtararujs/python-greetings'
         path: 'python-greetings'
 
+    - run: python -m venv venv
+      shell: powershell
+      working-directory: python-greetings
+        
+    - run: ./venv/Scripts/python -m pip install -r requirements.txt
+      shell: powershell
+      working-directory: python-greetings 
+
     - run: pm2 delete greetings-app-${{ inputs.environment }}  ; if (!$?) {Write-Host "does not exist"} ; exit 0
       shell: powershell
       working-directory: python-greetings
