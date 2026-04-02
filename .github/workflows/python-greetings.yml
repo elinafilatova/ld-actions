@@ -37,7 +37,9 @@ jobs:
     runs-on: self-hosted
     needs: deploy-to-dev
     steps:
-      - run: echo "Testing on development..."
+      - uses: ./.github/actions/test
+        with:
+          environment: 'dev'
     
   deploy-to-stg:
     runs-on: self-hosted
@@ -52,7 +54,9 @@ jobs:
     runs-on: self-hosted
     needs: deploy-to-stg
     steps:
-      - run: echo "Testing on staging..."
+      - uses: ./.github/actions/test
+        with:
+          environment: 'stg'
     
   deploy-to-preprod:
     runs-on: self-hosted
@@ -67,7 +71,9 @@ jobs:
     runs-on: self-hosted
     needs: deploy-to-preprod
     steps:
-      - run: echo "Testing on preprod..."
+      - uses: ./.github/actions/test
+        with:
+          environment: 'preprod'
     
   deploy-to-prod:
     runs-on: self-hosted
@@ -82,4 +88,6 @@ jobs:
     runs-on: self-hosted
     needs: deploy-to-prod
     steps:
-      - run: echo "Testing on production..."
+      - uses: ./.github/actions/test
+        with:
+          environment: 'prod'
