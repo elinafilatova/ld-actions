@@ -4,6 +4,8 @@ description: Running tests
 inputs:
   environment:
     required: true
+  port:
+    required: true
 
 runs:
   using: "composite"
@@ -18,6 +20,29 @@ runs:
         repository: 'mtararujs/course-js-api-framework'
         path: 'course-js-api-framework'
 
+    - uses: actions/checkout@v6
+      with:
+        repository: 'mtararujs/python-greetings'
+        path: 'python-greetings'
+
+    - run: python -m venv venv
+      shell: powershell
+      working-directory: python-greetings
+        
+    - run: ./venv/Scripts/python -m pip install -r requirements.txt
+      shell: powershell
+      working-directory: python-greetings 
+
+    - run: pm2 delete greetings-app-${{ inputs.environment }}  ; if (!$?) {Write-Host "does not exist"} ; exit 0
+      shell: powershell
+      working-directory: python-greetings
+
+    - run: |
+        $env:PORT=${{ inputs.port }} 
+        pm2 start app.py --name greetings-app-${{ inputs.environment }} --interpreter ./venv/Scripts/python.exe
+      shell: powershell
+      working-directory: python-greetings
+        
     - run: pm2 list
       shell: powershell
       working-directory: course-js-api-framework
